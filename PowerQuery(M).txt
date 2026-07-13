@@ -1,0 +1,92 @@
+date_clean:
+
+if [date] is null then
+    null
+else
+    try
+        let
+            txt = Text.Trim([date]),
+            hasSlash = Text.Contains(txt, "/"),
+            parts = if hasSlash then Text.Split(txt, "/") else Text.Split(txt, "-"),
+            p1 = parts{0},
+            p2 = parts{1},
+            p3 = parts{2}
+        in
+            if hasSlash then
+                #date(Number.FromText(p3), Number.FromText(p1), Number.FromText(p2))
+            else if Text.Length(p1) = 4 then
+                #date(Number.FromText(p1), Number.FromText(p2), Number.FromText(p3))
+            else if Text.Length(p3) = 4 then
+                #date(Number.FromText(p3), Number.FromText(p2), Number.FromText(p1))
+            else
+                #date(2000 + Number.FromText(p3), Number.FromText(p2), Number.FromText(p1))
+    otherwise
+        null
+*******************
+
+payment_mode_clean: 
+
+let
+    catLower = Text.Lower(Text.Trim([category]))
+in
+    if catLower = null then null
+    else if List.Contains({"food","foods","fod","foodd"}, catLower) then "Food"
+    else if List.Contains({"rent","rentt","rnt"}, catLower) then "Rent"
+    else if List.Contains({"travel","traval","travl"}, catLower) then "Travel"
+    else if List.Contains({"entertainment","entertain","entrtnmnt"}, catLower) then "Entertainment"
+    else if List.Contains({"utilities","utility","utlities","utilties"}, catLower) then "Utilities"
+    else if List.Contains({"education","educaton","edu"}, catLower) then "Education"
+    else if List.Contains({"health","helth"}, catLower) then "Health"
+    else if List.Contains({"freelance"}, catLower) then "Freelance"
+    else if List.Contains({"investment"}, catLower) then "Investment"
+    else if List.Contains({"bonus"}, catLower) then "Bonus"
+    else if List.Contains({"salary"}, catLower) then "Salary"
+    else if List.Contains({"savings","saving"}, catLower) then "Savings"
+    else if List.Contains({"others","other","misc"}, catLower) then "Others"
+    else "Unmapped"
+*******************
+
+category_clean:
+
+let
+    catLower = Text.Lower(Text.Trim([category]))
+in
+    if catLower = null then null
+    else if List.Contains({"food","foods","fod","foodd"}, catLower) then "Food"
+    else if List.Contains({"rent","rentt","rnt"}, catLower) then "Rent"
+    else if List.Contains({"travel","traval","travl"}, catLower) then "Travel"
+    else if List.Contains({"entertainment","entertain","entrtnmnt"}, catLower) then "Entertainment"
+    else if List.Contains({"utilities","utility","utlities","utilties"}, catLower) then "Utilities"
+    else if List.Contains({"education","educaton","edu"}, catLower) then "Education"
+    else if List.Contains({"health","helth"}, catLower) then "Health"
+    else if List.Contains({"freelance"}, catLower) then "Freelance"
+    else if List.Contains({"investment"}, catLower) then "Investment"
+    else if List.Contains({"bonus"}, catLower) then "Bonus"
+    else if List.Contains({"salary"}, catLower) then "Salary"
+    else if List.Contains({"savings","saving"}, catLower) then "Savings"
+    else if List.Contains({"others","other","misc"}, catLower) then "Others"
+    else "Unmapped"
+*******************
+
+location_clean: 
+
+let
+    locLower = Text.Lower(Text.Trim([location]))
+in
+    if locLower = null or locLower = "" or locLower = "n/a" then null
+    else if List.Contains({"pune","pun"}, locLower) then "Pune"
+    else if List.Contains({"bangalore","ban"}, locLower) then "Bangalore"
+    else if List.Contains({"delhi","del"}, locLower) then "Delhi"
+    else if List.Contains({"chennai","che"}, locLower) then "Chennai"
+    else if List.Contains({"kolkata","kol"}, locLower) then "Kolkata"
+    else if List.Contains({"mumbai","mum"}, locLower) then "Mumbai"
+    else if List.Contains({"jaipur","jai"}, locLower) then "Jaipur"
+    else if List.Contains({"ahmedabad","ahm"}, locLower) then "Ahmedabad"
+    else if List.Contains({"lucknow","luc"}, locLower) then "Lucknow"
+    else if List.Contains({"hyderabad","hyd"}, locLower) then "Hyderabad"
+    else "Unmapped"
+
+*******************
+
+
+
